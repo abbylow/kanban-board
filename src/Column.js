@@ -5,19 +5,20 @@ import CardContainer from './CardContainer';
 
 const useStyles = makeStyles({
   container: {
-    margin: '8px',
-    border: '1px solid lightgrey',
-    borderRadius: '2px',
-    width: '220px',
-    backgroundColor: 'white',
+    margin: '0.5em',
+    backgroundColor: '#ebecf0',
+    borderRadius: '0.25em',
+    width: '15em',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   title: {
-    padding: '8px',
+    padding: '0.5em 0.75em',
+    fontWeight: 'bolder',
+    fontSize: 'large'
   },
   taskList: {
-    padding: '8px',
+    padding: '0.5em',
     transition: 'background-color 0.2s ease',
     flexGrow: 1,
     minHeight: '100px'

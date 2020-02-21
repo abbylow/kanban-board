@@ -4,11 +4,11 @@ import { Draggable } from 'react-beautiful-dnd';
 
 const useStyles = makeStyles({
   card: {
-    marginBottom: '8px',
-    padding: '8px',
-    border: '1px solid lightgrey',
-    borderRadius: '2px',
+    marginBottom: '0.5em',
+    padding: '1em',
+    borderRadius: '0.25em',
     backgroundColor: 'white',
+    boxShadow: 'rgba(9, 30, 66, 0.25) 0px 1px 2px 0px',
   }
 });
 
