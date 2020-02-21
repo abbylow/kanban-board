@@ -9,7 +9,9 @@ const useStyles = makeStyles({
     padding: '1em',
   },
   title: {
-    margin: '0 0.5em',
+    margin: '0.25em 0.5em',
+    fontWeight: 'bolder',
+    fontSize: 'x-large'
   },
   lists: {
     display: 'flex',
@@ -105,7 +107,7 @@ function App() {
   return (
     <div className={classes.root}>
       <div className={classes.title}>
-        <h2>Kanban Board</h2>
+        Kanban Board
       </div>
       <DragDropContext
         onDragEnd={onDragEnd}
