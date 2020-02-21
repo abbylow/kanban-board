@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import ColumnContainer from './ColumnContainer';
+import { ColumnContainer } from './ColumnContainer';
+import CardDialog from './CardDialog';
 
 const useStyles = makeStyles({
   root: {
@@ -18,16 +19,18 @@ const useStyles = makeStyles({
   }
 });
 
+export const FunctionContext = React.createContext();
+
 function App() {
   const classes = useStyles();
 
   const [columnOrder, setColumnOrder] = useState(['column-1', 'column-2', 'column-3']);
 
   const [tasks, setTasks] = useState({
-    'task-1': { id: 'task-1', content: "Take out the garbages" },
-    'task-2': { id: 'task-2', content: "Watch my favorite show" },
-    'task-3': { id: 'task-3', content: "Charge my phone" },
-    'task-4': { id: 'task-4', content: "Cook dinner" },
+    'task-1': { id: 'task-1', title: "Take out the garbages", description: "Description of the task - Take out the garbages" },
+    'task-2': { id: 'task-2', title: "Watch my favorite show", description: "Description of the task - Watch my favorite show" },
+    'task-3': { id: 'task-3', title: "Charge my phone", description: "Description of the task - Charge my phone" },
+    'task-4': { id: 'task-4', title: "Cook dinner", description: "Description of the task - Cook dinner" },
   });
 
   const [columns, setColumns] = useState({
@@ -48,6 +51,9 @@ function App() {
     }
   });
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const [selectedTask, setSelectedTask] = useState(-1);
 
   function onDragEnd(result) {
     const { destination, source, draggableId, type } = result;
@@ -104,42 +110,47 @@ function App() {
     return;
   }
 
+  function handleClose() {
+    setDialogOpen(false);
+    setSelectedTask(-1);
+  }
+
+  function cardClicked(taskId) {
+    setDialogOpen(true);
+    setSelectedTask(taskId);
+  }
+
   return (
-    <div className={classes.root}>
-      <div className={classes.title}>
-        Kanban Board
+    <FunctionContext.Provider value={cardClicked}>
+      <div className={classes.root}>
+        <div className={classes.title}>
+          Kanban Board
+        </div>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="all-columns" direction="horizontal" type="list" >
+            {(provided) => (
+              <div className={classes.lists} {...provided.droppableProps} ref={provided.innerRef}>
+                {columnOrder.map((columnId, index) => {
+                  return (
+                    <ColumnContainer
+                      key={columnId}
+                      index={index}
+                      columnId={columnId}
+                      tasks={tasks}
+                      columns={columns}
+                    />
+                  );
+                })}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
+
+        <CardDialog tasks={tasks} open={dialogOpen} handleClose={handleClose} selectedTask={selectedTask} />
       </div>
-      <DragDropContext
-        onDragEnd={onDragEnd}
-      >
-        <Droppable
-          droppableId="all-columns"
-          direction="horizontal"
-          type="list"
-        >
-          {(provided) => (
-            <div
-              className={classes.lists}
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-            >
-              {columnOrder.map((columnId, index) => {
-                const column = columns[columnId];
-                return (
-                  <ColumnContainer
-                    key={column.id}
-                    index={index}
-                    column={column}
-                    taskMap={tasks}
-                  />
-                );
-              })}
-              {provided.placeholder}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-    </div>
+
+    </FunctionContext.Provider >
   );
 }
 

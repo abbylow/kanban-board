@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
-import CardContainer from './CardContainer';
+import Card from './Card';
 
 const useStyles = makeStyles({
   container: {
@@ -46,7 +46,9 @@ export default function Column({ index, column, tasks }) {
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                <CardContainer tasks={tasks} />
+                {tasks.map((task, index) =>
+                  <Card key={task.id} task={task} index={index} />
+                )}
                 {provided.placeholder}
               </div>
             )}

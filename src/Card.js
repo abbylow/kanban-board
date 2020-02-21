@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Draggable } from 'react-beautiful-dnd';
+import { FunctionContext } from './App';
 
 const useStyles = makeStyles({
   card: {
@@ -14,6 +15,7 @@ const useStyles = makeStyles({
 
 export default function Card({ task, index }) {
   const classes = useStyles();
+  const cardClicked = useContext(FunctionContext);
 
   return (
     <Draggable
@@ -26,8 +28,9 @@ export default function Card({ task, index }) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
+          onClick={() => cardClicked(task.id)}
         >
-          {task.content}
+          {task.title}
         </div>
       )}
     </Draggable>
