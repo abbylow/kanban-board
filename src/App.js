@@ -55,44 +55,32 @@ function App() {
 
   const [selectedTask, setSelectedTask] = useState(-1);
 
-  function onDragEnd(result) {
-    const { destination, source, draggableId, type } = result;
+  function handleListMovement(destination, source, draggableId) {
+    const newColumnOrder = Array.from(columnOrder);
+    newColumnOrder.splice(source.index, 1);
+    newColumnOrder.splice(destination.index, 0, draggableId);
+    setColumnOrder(newColumnOrder);
+    return;
+  }
 
-    if (!destination) {
-      return;
-    }
+  function reorderCards(destination, source, draggableId) {
+    const selectedColumn = columns[source.droppableId];
 
-    if (destination.droppableId === source.droppableId && destination.index === source.index) {
-      return;
-    }
+    const newTaskIds = Array.from(selectedColumn.taskIds);
+    newTaskIds.splice(source.index, 1);
+    newTaskIds.splice(destination.index, 0, draggableId);
 
-    if (type === 'list') {
-      const newColumnOrder = Array.from(columnOrder);
-      newColumnOrder.splice(source.index, 1);
-      newColumnOrder.splice(destination.index, 0, draggableId);
-      setColumnOrder(newColumnOrder);
-      return;
-    }
+    setColumns({
+      ...columns,
+      [selectedColumn.id]: { ...selectedColumn, taskIds: newTaskIds }
+    });
+    return;
+  }
 
-    //if the type is not list, then handle the movement of card
+  function moveCardAcrossList(destination, source, draggableId) {
     const startColumn = columns[source.droppableId];
     const destinationColumn = columns[destination.droppableId];
 
-    //reorder the cards in the same list
-    if (startColumn === destinationColumn) {
-      const newTaskIds = Array.from(startColumn.taskIds);
-      newTaskIds.splice(source.index, 1);
-      newTaskIds.splice(destination.index, 0, draggableId);
-
-      const newColumn = { ...startColumn, taskIds: newTaskIds };
-      setColumns({
-        ...columns,
-        [newColumn.id]: newColumn
-      })
-      return;
-    }
-
-    // move card from one list to another
     const startTaskIds = Array.from(startColumn.taskIds);
     startTaskIds.splice(source.index, 1);
     const newStartColumn = { ...startColumn, taskIds: startTaskIds };
@@ -106,7 +94,36 @@ function App() {
       [newStartColumn.id]: newStartColumn,
       [newDestinationColumn.id]: newDestinationColumn
     })
+    return;
+  }
 
+  function handleCardMovement(destination, source, draggableId) {
+    if (source.droppableId === destination.droppableId) {
+      reorderCards(destination, source, draggableId);
+    }
+    else {
+      moveCardAcrossList(destination, source, draggableId);
+    }
+    return;
+  }
+
+  function onDragEnd(result) {
+    const { destination, source, draggableId, type } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    if (destination.droppableId === source.droppableId && destination.index === source.index) {
+      return;
+    }
+
+    if (type === 'list') {
+      handleListMovement(destination, source, draggableId);
+    }
+    else {
+      handleCardMovement(destination, source, draggableId);
+    }
     return;
   }
 
