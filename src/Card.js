@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 
 export default function Card({ task, index }) {
   const classes = useStyles();
-  const cardClicked = useContext(FunctionContext);
+  const handleOpen = useContext(FunctionContext);
 
   return (
     <Draggable
@@ -28,7 +28,7 @@ export default function Card({ task, index }) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          onClick={() => cardClicked(task.id)}
+          onClick={() => handleOpen(task.id)}
         >
           {task.title}
         </div>

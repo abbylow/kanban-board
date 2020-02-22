@@ -115,13 +115,13 @@ function App() {
     setSelectedTask(-1);
   }
 
-  function cardClicked(taskId) {
+  function handleOpen(taskId) {
     setDialogOpen(true);
     setSelectedTask(taskId);
   }
 
   return (
-    <FunctionContext.Provider value={cardClicked}>
+    <FunctionContext.Provider value={handleOpen}>
       <div className={classes.root}>
         <div className={classes.title}>
           Kanban Board
