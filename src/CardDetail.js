@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogContentText } from '@material-ui/core';
 
-export default function CardDialog({ open, onClose, otherProps }) {
+export default function CardDetail({ open, onClose, otherProps }) {
   const { selectedTask } = otherProps;
 
   return (

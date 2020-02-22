@@ -4,7 +4,7 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { ColumnContainer } from './ColumnContainer';
 import { DialogProvider } from './DialogContext';
 import { DialogRoot } from './DialogRoot';
-import CardDialog from './CardDialog';
+import CardDetail from './CardDetail';
 
 const useStyles = makeStyles({
   root: {
@@ -150,7 +150,8 @@ function App() {
           </Droppable>
         </DragDropContext>
 
-        <DialogRoot component={CardDialog} />
+        {/* TODO: how to make this dialog root accepts different type of component? Use another context to control? */}
+        <DialogRoot component={CardDetail} />
       </DialogProvider>
 
     </div >
