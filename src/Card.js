@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
+import { DialogContext } from './DialogContext';
 import { makeStyles } from '@material-ui/core/styles';
 import { Draggable } from 'react-beautiful-dnd';
-import { FunctionContext } from './App';
 
 const useStyles = makeStyles({
   card: {
@@ -13,9 +13,9 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Card({ task, index }) {
+export const Card = ({ task, index }) => {
   const classes = useStyles();
-  const handleOpen = useContext(FunctionContext);
+  const { handleOpen } = useContext(DialogContext);
 
   return (
     <Draggable
@@ -28,7 +28,7 @@ export default function Card({ task, index }) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          onClick={() => handleOpen(task.id)}
+          onClick={() => handleOpen({ selectedTask: task })} //can pass the other variables for different dialog purposes
         >
           {task.title}
         </div>

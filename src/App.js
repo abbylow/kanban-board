@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { ColumnContainer } from './ColumnContainer';
+import { DialogProvider } from './DialogContext';
+import { DialogRoot } from './DialogRoot';
 import CardDialog from './CardDialog';
 
 const useStyles = makeStyles({
@@ -18,8 +20,6 @@ const useStyles = makeStyles({
     display: 'flex',
   }
 });
-
-export const FunctionContext = React.createContext();
 
 function App() {
   const classes = useStyles();
@@ -50,10 +50,6 @@ function App() {
       taskIds: []
     }
   });
-
-  const [dialogOpen, setDialogOpen] = useState(false);
-
-  const [selectedTask, setSelectedTask] = useState(-1);
 
   function handleListMovement(destination, source, draggableId) {
     const newColumnOrder = Array.from(columnOrder);
@@ -127,22 +123,12 @@ function App() {
     return;
   }
 
-  function handleClose() {
-    setDialogOpen(false);
-    setSelectedTask(-1);
-  }
-
-  function handleOpen(taskId) {
-    setDialogOpen(true);
-    setSelectedTask(taskId);
-  }
-
   return (
-    <FunctionContext.Provider value={handleOpen}>
-      <div className={classes.root}>
-        <div className={classes.title}>
-          Kanban Board
-        </div>
+    <div className={classes.root}>
+      <div className={classes.title}>
+        Kanban Board
+      </div>
+      <DialogProvider>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="all-columns" direction="horizontal" type="list" >
             {(provided) => (
@@ -164,10 +150,10 @@ function App() {
           </Droppable>
         </DragDropContext>
 
-        <CardDialog tasks={tasks} open={dialogOpen} handleClose={handleClose} selectedTask={selectedTask} />
-      </div>
+        <DialogRoot component={CardDialog} />
+      </DialogProvider>
 
-    </FunctionContext.Provider >
+    </div >
   );
 }
 

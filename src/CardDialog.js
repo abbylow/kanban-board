@@ -1,20 +1,17 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogContentText } from '@material-ui/core';
 
-export default function CardDialog({ tasks, open, handleClose, selectedTask }) {
-  const task = tasks[selectedTask];
+export default function CardDialog({ open, onClose, otherProps }) {
+  const { selectedTask } = otherProps;
 
-  //TODO: make inline change text field and rich text editor
   return (
-    <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>{task ? task.title : ''}</DialogTitle>
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>{selectedTask && selectedTask.title} </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {task ? task.description : ''}
+          {selectedTask && selectedTask.description}
         </DialogContentText>
       </DialogContent>
     </Dialog>
   );
 }
-
-
