@@ -5,6 +5,7 @@ import { ColumnContainer } from './ColumnContainer';
 import { DialogProvider } from './DialogContext';
 import { DialogRoot } from './DialogRoot';
 import CardDetail from './CardDetail';
+import { handleCardMovement, handleListMovement } from './handleMovement';
 
 const useStyles = makeStyles({
   root: {
@@ -51,57 +52,6 @@ function App() {
     }
   });
 
-  function handleListMovement(destination, source, draggableId) {
-    const newColumnOrder = Array.from(columnOrder);
-    newColumnOrder.splice(source.index, 1);
-    newColumnOrder.splice(destination.index, 0, draggableId);
-    setColumnOrder(newColumnOrder);
-    return;
-  }
-
-  function reorderCards(destination, source, draggableId) {
-    const selectedColumn = columns[source.droppableId];
-
-    const newTaskIds = Array.from(selectedColumn.taskIds);
-    newTaskIds.splice(source.index, 1);
-    newTaskIds.splice(destination.index, 0, draggableId);
-
-    setColumns({
-      ...columns,
-      [selectedColumn.id]: { ...selectedColumn, taskIds: newTaskIds }
-    });
-    return;
-  }
-
-  function moveCardAcrossList(destination, source, draggableId) {
-    const startColumn = columns[source.droppableId];
-    const destinationColumn = columns[destination.droppableId];
-
-    const startTaskIds = Array.from(startColumn.taskIds);
-    startTaskIds.splice(source.index, 1);
-    const newStartColumn = { ...startColumn, taskIds: startTaskIds };
-
-    const destinationTaskIds = Array.from(destinationColumn.taskIds);
-    destinationTaskIds.splice(destination.index, 0, draggableId);
-    const newDestinationColumn = { ...destinationColumn, taskIds: destinationTaskIds };
-
-    setColumns({
-      ...columns,
-      [newStartColumn.id]: newStartColumn,
-      [newDestinationColumn.id]: newDestinationColumn
-    })
-    return;
-  }
-
-  function handleCardMovement(destination, source, draggableId) {
-    if (source.droppableId === destination.droppableId) {
-      reorderCards(destination, source, draggableId);
-    }
-    else {
-      moveCardAcrossList(destination, source, draggableId);
-    }
-    return;
-  }
 
   function onDragEnd(result) {
     const { destination, source, draggableId, type } = result;
@@ -115,10 +65,12 @@ function App() {
     }
 
     if (type === 'list') {
-      handleListMovement(destination, source, draggableId);
+      let newColumnOrder = handleListMovement(columnOrder, destination, source, draggableId);
+      setColumnOrder(newColumnOrder);
     }
     else {
-      handleCardMovement(destination, source, draggableId);
+      let newColumns = handleCardMovement(columns, destination, source, draggableId);
+      setColumns(newColumns);
     }
     return;
   }
