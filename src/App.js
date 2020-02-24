@@ -102,8 +102,7 @@ function App() {
           </Droppable>
         </DragDropContext>
 
-        {/* TODO: how to make this dialog root accepts different type of component? Use another context to control? */}
-        <DialogRoot component={CardDetail} />
+        <DialogRoot render={(props) => <CardDetail {...props} />} />
       </DialogProvider>
 
     </div >
