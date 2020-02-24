@@ -17,7 +17,7 @@ export const DialogProvider = ({ children }) => {
   };
 
   return (
-    <DialogContext.Provider value={{ dialogIsOpen, handleOpen, handleClose, otherProps }}>
+    <DialogContext.Provider value={{ dialogIsOpen, handleOpen, handleClose, ...otherProps }}>
       {children}
     </DialogContext.Provider>
   );
