@@ -47,7 +47,7 @@ export const EditorComponent = React.memo(({ description }) => {
       <Editor
         toolbarClassName={classes.toolbarAbsolute}
         editorClassName={classes.editor}
-        toolbarOnFocus
+        // toolbarOnFocus
         toolbar={{
           options: ['inline', 'blockType', 'fontSize', 'colorPicker'],
           inline: {

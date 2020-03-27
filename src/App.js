@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { ColumnContainer } from './ColumnContainer';
@@ -6,6 +6,8 @@ import { DialogProvider } from './DialogContext';
 import { DialogRoot } from './DialogRoot';
 import CardDetail from './CardDetail';
 import { handleCardMovement, handleListMovement } from './handleMovement';
+import { TextField, Button } from '@material-ui/core';
+import { useEditableField } from './useEditableField';
 
 const useStyles = makeStyles({
   root: {
@@ -24,6 +26,8 @@ const useStyles = makeStyles({
 
 function App() {
   const classes = useStyles();
+
+  const [boardTitle, titleEditMode, titleInputRef, updateBoardTitle, makeTitleEditable] = useEditableField('Default Board Title', 'Empty Board Title');
 
   const [columnOrder, setColumnOrder] = useState(['column-1', 'column-2', 'column-3']);
 
@@ -53,7 +57,7 @@ function App() {
   });
 
 
-  function onDragEnd(result) {
+  const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
 
     if (!destination) {
@@ -77,9 +81,18 @@ function App() {
 
   return (
     <div className={classes.root}>
-      <div className={classes.title}>
-        Kanban Board
-      </div>
+      {
+        titleEditMode ? (
+          <div>
+            <TextField defaultValue={boardTitle} inputRef={titleInputRef} />
+            <Button variant="outlined" onClick={updateBoardTitle}>Confirm</Button>
+          </div>
+        ) :
+          <div className={classes.title} onClick={makeTitleEditable}>
+            {boardTitle}
+          </div>
+      }
+
       <DialogProvider>
         <DragDropContext onDragEnd={onDragEnd}>
           <Droppable droppableId="all-columns" direction="horizontal" type="list" >

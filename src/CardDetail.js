@@ -9,7 +9,9 @@ export default function CardDetail({ dialogIsOpen, handleClose, ...otherProps })
     <Dialog open={dialogIsOpen} onClose={handleClose} fullWidth>
       <DialogTitle>{selectedTask && selectedTask.title} </DialogTitle>
       <DialogContent>
-
+{/* TODO: make a place for human to edit the tasks */}
+{/* Rich text editor */}
+{/* Checklist */}
         <EditorComponent description={selectedTask && selectedTask.description} />
 
       </DialogContent>
