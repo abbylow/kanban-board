@@ -6,28 +6,24 @@ import { DialogProvider } from './DialogContext';
 import { DialogRoot } from './DialogRoot';
 import CardDetail from './CardDetail';
 import { handleCardMovement, handleListMovement } from './handleMovement';
-import { TextField, Button } from '@material-ui/core';
-import { useEditableField } from './useEditableField';
+import { EditableField } from './EditableField';
 
 const useStyles = makeStyles({
   root: {
     flex: 1,
     padding: '1em',
   },
-  title: {
-    margin: '0.25em 0.5em',
-    fontWeight: 'bolder',
-    fontSize: 'x-large'
-  },
   lists: {
     display: 'flex',
+  },
+  title: {
+    fontWeight: 'bolder',
+    fontSize: 'x-large'
   }
 });
 
 function App() {
   const classes = useStyles();
-
-  const [boardTitle, titleEditMode, titleInputRef, updateBoardTitle, makeTitleEditable] = useEditableField('Default Board Title', 'Empty Board Title');
 
   const [columnOrder, setColumnOrder] = useState(['column-1', 'column-2', 'column-3']);
 
@@ -56,7 +52,6 @@ function App() {
     }
   });
 
-
   const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
 
@@ -81,17 +76,7 @@ function App() {
 
   return (
     <div className={classes.root}>
-      {
-        titleEditMode ? (
-          <div>
-            <TextField defaultValue={boardTitle} inputRef={titleInputRef} />
-            <Button variant="outlined" onClick={updateBoardTitle}>Confirm</Button>
-          </div>
-        ) :
-          <div className={classes.title} onClick={makeTitleEditable}>
-            {boardTitle}
-          </div>
-      }
+      <EditableField defaultText={'Default Board Name'} emptyText={'Empty Board Name'} displayClassName={classes.title} />
 
       <DialogProvider>
         <DragDropContext onDragEnd={onDragEnd}>

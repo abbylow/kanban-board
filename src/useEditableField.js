@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 export const useEditableField = (defaultText, emptyText) => {
   const [text, setText] = useState(defaultText);
@@ -7,8 +7,8 @@ export const useEditableField = (defaultText, emptyText) => {
 
   const inputRef = useRef(null);
 
-  const makeTextEditable = () => {
-    setEditMode(true);
+  const toggleTextEditable = () => {
+    setEditMode(!editMode);
   }
 
   const updateText = () => {
@@ -21,5 +21,5 @@ export const useEditableField = (defaultText, emptyText) => {
     setEditMode(false);
   }
 
-  return [text, editMode, inputRef, updateText, makeTextEditable];
+  return [text, editMode, inputRef, updateText, toggleTextEditable];
 }
