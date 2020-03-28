@@ -11,23 +11,23 @@ const useStyles = makeStyles({
   }
 });
 
-export const EditableField = ({ defaultText='Default Text', emptyText='Empty Text', displayClassName }) => {
+export const EditableField = ({ placeholder = 'Enter some text...', displayClassName, handleUpdate }) => {
   const classes = useStyles();
 
-  const [text, editMode, inputRef, updateText, toggleTextEditable] = useEditableField(defaultText, emptyText);
+  const [text, editMode, inputRef, updateText, toggleTextEditable] = useEditableField(handleUpdate);
 
   return (
     <div className={classes.container}>
       {
         editMode ? (
           <div>
-            <TextField defaultValue={text} inputRef={inputRef} />
+            <TextField placeholder={placeholder} defaultValue={text} inputRef={inputRef} />
             <IconButton color="primary" onClick={updateText}><Check /></IconButton>
             <IconButton color="secondary" onClick={toggleTextEditable}><Close /></IconButton>
           </div >
         ) :
           <div className={displayClassName} onClick={toggleTextEditable}>
-            {text}
+            {text ? text : placeholder}
           </div>
       }
     </div>
@@ -36,7 +36,7 @@ export const EditableField = ({ defaultText='Default Text', emptyText='Empty Tex
 
 
 EditableField.propTypes = {
-  defaultText: PropTypes.string,
-  emptyText: PropTypes.string,
-  className: PropTypes.string,
+  placeholder: PropTypes.string,
+  displayClassName: PropTypes.string,
+  handleUpdate: PropTypes.func,
 }

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import { ColumnContainer } from './ColumnContainer';
@@ -7,11 +7,15 @@ import { DialogRoot } from './DialogRoot';
 import CardDetail from './CardDetail';
 import { handleCardMovement, handleListMovement } from './handleMovement';
 import { EditableField } from './EditableField';
+import { Add } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   root: {
     flex: 1,
     padding: '1em',
+  },
+  listContainer: {
+    display: 'flex'
   },
   lists: {
     display: 'flex',
@@ -19,6 +23,16 @@ const useStyles = makeStyles({
   title: {
     fontWeight: 'bolder',
     fontSize: 'x-large'
+  },
+  newList: {
+    margin: '0.5em',
+    minWidth: '15em'
+  },
+  innerNewList: {
+    padding: '0.5em',
+    borderRadius: '0.25em',
+    backgroundColor: 'rgb(235, 236, 240, .5)',
+    display: 'flex'
   }
 });
 
@@ -74,32 +88,55 @@ function App() {
     return;
   }
 
+  const addList = (listTitle) => {
+    if (listTitle) {
+      const nextId = 'column-' + (Object.values(columns).length + 1);
+      setColumns({
+        ...columns,
+        [nextId]: {
+          id: nextId,
+          title: listTitle,
+          taskIds: []
+        }
+      });
+      setColumnOrder([...columnOrder, nextId]);
+    }
+  }
+
   return (
     <div className={classes.root}>
-      <EditableField defaultText={'Default Board Name'} emptyText={'Empty Board Name'} displayClassName={classes.title} />
+      <EditableField placeholder={'Default Board Name'} displayClassName={classes.title} />
 
       <DialogProvider>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="all-columns" direction="horizontal" type="list" >
-            {(provided) => (
-              <div className={classes.lists} {...provided.droppableProps} ref={provided.innerRef}>
-                {columnOrder.map((columnId, index) => {
-                  return (
-                    <ColumnContainer
-                      key={columnId}
-                      index={index}
-                      columnId={columnId}
-                      tasks={tasks}
-                      columns={columns}
-                    />
-                  );
-                })}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+        <div className={classes.listContainer}>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId="all-columns" direction="horizontal" type="list" >
+              {(provided) => (
+                <div className={classes.lists} {...provided.droppableProps} ref={provided.innerRef}>
+                  {columnOrder.map((columnId, index) => {
+                    return (
+                      <ColumnContainer
+                        key={columnId}
+                        index={index}
+                        columnId={columnId}
+                        tasks={tasks}
+                        columns={columns}
+                      />
+                    );
+                  })}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
 
+          <div className={classes.newList}>
+            <div className={classes.innerNewList}>
+              <Add />
+              <EditableField placeholder={'Add A New List'} handleUpdate={addList} />
+            </div>
+          </div>
+        </div>
         <DialogRoot render={(props) => <CardDetail {...props} />} />
       </DialogProvider>
 
