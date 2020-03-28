@@ -7,7 +7,7 @@ import { DialogRoot } from './components/DialogRoot';
 import CardDetail from './components/CardDetail';
 import { handleCardMovement, handleListMovement } from './services/handleMovement';
 import { EditableField } from './components/EditableField';
-import { Add } from '@material-ui/icons';
+import { NewListForm } from './components/NewListForm';
 
 const useStyles = makeStyles({
   root: {
@@ -23,16 +23,6 @@ const useStyles = makeStyles({
   title: {
     fontWeight: 'bolder',
     fontSize: 'x-large'
-  },
-  newList: {
-    margin: '0.5em',
-    minWidth: '15em'
-  },
-  innerNewList: {
-    padding: '0.5em',
-    borderRadius: '0.25em',
-    backgroundColor: 'rgb(235, 236, 240, .5)',
-    display: 'flex'
   }
 });
 
@@ -88,21 +78,6 @@ function App() {
     return;
   }
 
-  const addList = (listTitle) => {
-    if (listTitle) {
-      const nextId = 'column-' + (Object.values(columns).length + 1);
-      setColumns({
-        ...columns,
-        [nextId]: {
-          id: nextId,
-          title: listTitle,
-          taskIds: []
-        }
-      });
-      setColumnOrder([...columnOrder, nextId]);
-    }
-  }
-
   return (
     <div className={classes.root}>
       <EditableField placeholder={'Default Board Name'} displayClassName={classes.title} />
@@ -129,13 +104,7 @@ function App() {
               )}
             </Droppable>
           </DragDropContext>
-
-          <div className={classes.newList}>
-            <div className={classes.innerNewList}>
-              <Add />
-              <EditableField placeholder={'Add A New List'} handleUpdate={addList} />
-            </div>
-          </div>
+          <NewListForm columns={columns} setColumns={setColumns} columnOrder={columnOrder} setColumnOrder={setColumnOrder} />
         </div>
         <DialogRoot render={(props) => <CardDetail {...props} />} />
       </DialogProvider>
