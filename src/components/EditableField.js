@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useEditableField } from './useEditableField';
+import { useEditableField } from '../hooks/useEditableField';
 import { TextField, IconButton } from '@material-ui/core';
 import { Check, Close } from '@material-ui/icons';
 import PropTypes from 'prop-types';

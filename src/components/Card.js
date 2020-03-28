@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { DialogContext } from './DialogContext';
+import { DialogContext } from '../contexts/DialogContext';
 import { makeStyles } from '@material-ui/core/styles';
 import { Draggable } from 'react-beautiful-dnd';
 

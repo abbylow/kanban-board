@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
-import { ColumnContainer } from './ColumnContainer';
-import { DialogProvider } from './DialogContext';
-import { DialogRoot } from './DialogRoot';
-import CardDetail from './CardDetail';
-import { handleCardMovement, handleListMovement } from './handleMovement';
-import { EditableField } from './EditableField';
+import { ColumnContainer } from './components/ColumnContainer';
+import { DialogProvider } from './contexts/DialogContext';
+import { DialogRoot } from './components/DialogRoot';
+import CardDetail from './components/CardDetail';
+import { handleCardMovement, handleListMovement } from './services/handleMovement';
+import { EditableField } from './components/EditableField';
 import { Add } from '@material-ui/icons';
 
 const useStyles = makeStyles({
