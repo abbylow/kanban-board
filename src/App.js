@@ -22,6 +22,10 @@ const useStyles = makeStyles({
   title: {
     fontWeight: 'bolder',
     fontSize: 'x-large'
+  },
+  newList: {
+    margin: '0.5em',
+    minWidth: '15em'
   }
 });
 
@@ -36,7 +40,7 @@ function App() {
         <div className={classes.listContainer}>
           <ColumnsProvider>
             <Columns />
-            <NewListForm />
+            <div className={classes.newList}><NewListForm /></div>
           </ColumnsProvider>
         </div>
         <DialogRoot render={(props) => <CardDetail {...props} />} />

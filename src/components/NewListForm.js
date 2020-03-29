@@ -1,15 +1,10 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import * as shortId from "shortid";
-import { Add } from '@material-ui/icons';
-import { EditableField } from './EditableField';
+import { NewItemField } from './NewItemField';
 import { ColumnContext } from '../contexts/ColumnContext';
 
 const useStyles = makeStyles({
-  newList: {
-    margin: '0.5em',
-    minWidth: '15em'
-  },
   innerNewList: {
     padding: '0.5em',
     borderRadius: '0.25em',
@@ -17,7 +12,6 @@ const useStyles = makeStyles({
     display: 'flex'
   }
 });
-
 
 export const NewListForm = () => {
   const classes = useStyles();
@@ -39,11 +33,6 @@ export const NewListForm = () => {
   }
 
   return (
-    <div className={classes.newList}>
-      <div className={classes.innerNewList}>
-        <Add />
-        <EditableField placeholder={'Add A New List'} handleUpdate={addList} />
-      </div>
-    </div>
+    <NewItemField className={classes.innerNewList} placeholder={'Add A New List'} handleUpdate={addList} />
   )
 }
