@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { Card } from './Card';
+import { NewCardForm } from './NewCardForm';
+import { TaskContext } from '../contexts/TaskContext';
 
 const useStyles = makeStyles({
   container: {
@@ -25,8 +27,10 @@ const useStyles = makeStyles({
   }
 });
 
-export default function Column({ index, column, tasks }) {
+export default function Column({ index, column }) {
   const classes = useStyles();
+  const { tasks, setTasks } = useContext(TaskContext);
+  const myTasks = column.taskIds.map(taskId => tasks[taskId]);
 
   return (
     <Draggable draggableId={column.id} index={index}>
@@ -39,6 +43,7 @@ export default function Column({ index, column, tasks }) {
           <div {...provided.dragHandleProps} className={classes.title}>
             {column.title}
           </div>
+          <NewCardForm columnId={column.id} setTasks={setTasks} tasks={tasks} />
           <Droppable type="card" droppableId={column.id}>
             {(provided) => (
               <div
@@ -46,14 +51,13 @@ export default function Column({ index, column, tasks }) {
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
-                {tasks.map((task, index) =>
+                {myTasks.map((task, index) =>
                   <Card key={task.id} task={task} index={index} />
                 )}
                 {provided.placeholder}
               </div>
             )}
           </Droppable>
-
         </div>
       )}
     </Draggable>

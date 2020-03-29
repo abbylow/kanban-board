@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import * as shortId from "shortid";
 import { Add } from '@material-ui/icons';
 import { EditableField } from './EditableField';
+import { ColumnContext } from '../contexts/ColumnContext';
 
 const useStyles = makeStyles({
   newList: {
@@ -18,8 +19,9 @@ const useStyles = makeStyles({
 });
 
 
-export const NewListForm = ({ columns, setColumns, columnOrder, setColumnOrder }) => {
+export const NewListForm = () => {
   const classes = useStyles();
+  const { columns, setColumns, columnOrder, setColumnOrder } = useContext(ColumnContext);
 
   const addList = (listTitle) => {
     if (listTitle) {
