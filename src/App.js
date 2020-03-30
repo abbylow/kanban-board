@@ -7,6 +7,7 @@ import CardDetail from './components/CardDetail';
 import { EditableField } from './components/EditableField';
 import { Columns } from './components/Columns';
 import { NewListForm } from './components/NewListForm';
+import { TasksProvider } from './contexts/TaskContext';
 
 const useStyles = makeStyles({
   root: {
@@ -37,13 +38,15 @@ function App() {
       <EditableField placeholder={'Default Board Name'} textClassName={classes.title} />
 
       <DialogProvider>
-        <div className={classes.listContainer}>
+        <TasksProvider>
           <ColumnsProvider>
-            <Columns/>
-            <div className={classes.newList}><NewListForm /></div>
+            <div className={classes.listContainer}>
+              <Columns />
+              <div className={classes.newList}><NewListForm /></div>
+            </div>
+            <DialogRoot render={(props) => <CardDetail {...props} />} />
           </ColumnsProvider>
-        </div>
-        <DialogRoot render={(props) => <CardDetail {...props} />} />
+        </TasksProvider>
       </DialogProvider>
 
     </div >

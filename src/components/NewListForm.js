@@ -33,7 +33,9 @@ export const NewListForm = () => {
     }
   }
 
+  const renderIcon = () => <Add />
+
   return (
-    <EditableField displayIcon={() => <Add />} className={classes.innerNewList} placeholder={'Add A New List'} handleUpdate={addList} />
+    <EditableField displayIcon={renderIcon} className={classes.innerNewList} placeholder={'Add A New List'} handleUpdate={addList} />
   )
 }

@@ -54,7 +54,7 @@ export default function Column({ index, column }) {
                 {...provided.droppableProps}
               >
                 {myTasks.map((task, index) =>
-                  <Card key={task.id} task={task} index={index} />
+                  <Card key={task.id} task={task} index={index} columnId={column.id}/>
                 )}
                 {provided.placeholder}
               </div>

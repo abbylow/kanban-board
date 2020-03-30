@@ -37,7 +37,9 @@ export const NewCardForm = ({ columnId, setTasks, tasks }) => {
     }
   }
 
+  const renderIcon = () => <Add />
+
   return (
-    <EditableField displayIcon={()=> <Add/>} className={classes.formContainer} placeholder={'Add A New Card'} handleUpdate={addCard} />
+    <EditableField displayIcon={renderIcon} className={classes.formContainer} placeholder={'Add A New Card'} handleUpdate={addCard} />
   )
 }

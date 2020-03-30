@@ -13,7 +13,7 @@ const useStyles = makeStyles({
   }
 });
 
-export const Card = ({ task, index }) => {
+export const Card = ({ task, index, columnId }) => {
   const classes = useStyles();
   const { handleOpen } = useContext(DialogContext);
 
@@ -28,7 +28,7 @@ export const Card = ({ task, index }) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          onClick={() => handleOpen({ selectedTask: task })} //can pass the other variables for different dialog purposes
+          onClick={() => handleOpen({ selectedTaskId: task.id, selectedColumnId: columnId })} //can pass the other variables for different dialog purposes
         >
           {task.title}
         </div>

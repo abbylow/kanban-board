@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const ColumnFooter = ({column}) => {
+export const ColumnFooter = ({ column }) => {
   const classes = useStyles();
 
   const { columns, setColumns, columnOrder, setColumnOrder } = useContext(ColumnContext);
@@ -34,10 +34,12 @@ export const ColumnFooter = ({column}) => {
     setColumns({ ...newColumns, [column.id]: { ...columns[column.id], title: newListTitle } });
   }
 
+  const renderIcon = () => <EditOutlined />
+
   return (
     <div className={classes.buttonArea}>
       <EditableField
-        displayIcon={() => <EditOutlined />}
+        displayIcon={renderIcon}
         className={classes.renameArea} placeholder={'Rename List'}
         handleUpdate={renameList}
       />
