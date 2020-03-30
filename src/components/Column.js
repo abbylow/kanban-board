@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     width: '15em',
     display: 'flex',
     flexDirection: 'column',
+    maxHeight: '100vh'
   },
   title: {
     padding: '0.5em 0.75em',
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
     padding: '0.5em',
     transition: 'background-color 0.2s ease',
     flexGrow: 1,
-    minHeight: '100px'
+    overflow: 'scroll'
   }
 });
 

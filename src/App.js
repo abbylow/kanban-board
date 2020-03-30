@@ -12,16 +12,16 @@ const useStyles = makeStyles({
   root: {
     flex: 1,
     padding: '1em',
-  },
-  listContainer: {
-    display: 'flex'
-  },
-  lists: {
     display: 'flex',
+    flexDirection: 'column'
   },
   title: {
     fontWeight: 'bolder',
     fontSize: 'x-large'
+  },
+  listContainer: {
+    flex: 1,
+    display: 'flex'
   },
   newList: {
     margin: '0.5em',
@@ -39,7 +39,7 @@ function App() {
       <DialogProvider>
         <div className={classes.listContainer}>
           <ColumnsProvider>
-            <Columns />
+            <Columns/>
             <div className={classes.newList}><NewListForm /></div>
           </ColumnsProvider>
         </div>
