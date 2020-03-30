@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import * as shortId from "shortid";
 import { ColumnContext } from '../contexts/ColumnContext';
-import { NewItemField } from './NewItemField';
+import { Add } from '@material-ui/icons';
+import { EditableField } from './EditableField';
 
 const useStyles = makeStyles({
   formContainer: {
@@ -37,6 +38,6 @@ export const NewCardForm = ({ columnId, setTasks, tasks }) => {
   }
 
   return (
-    <NewItemField className={classes.formContainer} placeholder={'Add A New Card'} handleUpdate={addCard} />
+    <EditableField displayIcon={()=> <Add/>} className={classes.formContainer} placeholder={'Add A New Card'} handleUpdate={addCard} />
   )
 }

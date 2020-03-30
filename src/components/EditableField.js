@@ -11,32 +11,46 @@ const useStyles = makeStyles({
   }
 });
 
-export const EditableField = ({ placeholder = 'Enter some text...', displayClassName, handleUpdate }) => {
+export const EditableField = ({ displayIcon, className, placeholder = 'Enter some text...', textClassName, handleUpdate }) => {
   const classes = useStyles();
 
   const [text, editMode, inputRef, updateText, toggleTextEditable] = useEditableField(handleUpdate);
 
   return (
-    <div className={classes.container}>
+    <div className={className}>
       {
-        editMode ? (
-          <div>
-            <TextField placeholder={placeholder} defaultValue={text} inputRef={inputRef} />
-            <IconButton color="primary" onClick={updateText}><Check /></IconButton>
-            <IconButton color="secondary" onClick={toggleTextEditable}><Close /></IconButton>
-          </div >
-        ) :
-          <div className={displayClassName} onClick={toggleTextEditable}>
-            {text ? text : placeholder}
+        displayIcon && !editMode && (
+          <div onClick={toggleTextEditable}>
+            {displayIcon()}
           </div>
+        )
       }
+
+      <div className={classes.container}>
+        {
+          editMode ? (
+            <div>
+              <TextField placeholder={placeholder} defaultValue={text} inputRef={inputRef} />
+              <IconButton color="primary" onClick={updateText}><Check /></IconButton>
+              <IconButton color="secondary" onClick={toggleTextEditable}><Close /></IconButton>
+            </div >
+          ) :
+            <div className={textClassName} onClick={toggleTextEditable}>
+              {text ? text : placeholder}
+            </div>
+        }
+      </div>
     </div>
+
+
   )
 }
 
 
 EditableField.propTypes = {
+  displayIcon: PropTypes.func,
+  className: PropTypes.string,
   placeholder: PropTypes.string,
-  displayClassName: PropTypes.string,
+  textClassName: PropTypes.string,
   handleUpdate: PropTypes.func,
 }

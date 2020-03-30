@@ -34,7 +34,7 @@ function App() {
 
   return (
     <div className={classes.root}>
-      <EditableField placeholder={'Default Board Name'} displayClassName={classes.title} />
+      <EditableField placeholder={'Default Board Name'} textClassName={classes.title} />
 
       <DialogProvider>
         <div className={classes.listContainer}>

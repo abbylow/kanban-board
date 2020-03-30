@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import * as shortId from "shortid";
-import { NewItemField } from './NewItemField';
 import { ColumnContext } from '../contexts/ColumnContext';
+import { Add } from '@material-ui/icons';
+import { EditableField } from './EditableField';
 
 const useStyles = makeStyles({
   innerNewList: {
@@ -33,6 +34,6 @@ export const NewListForm = () => {
   }
 
   return (
-    <NewItemField className={classes.innerNewList} placeholder={'Add A New List'} handleUpdate={addList} />
+    <EditableField displayIcon={() => <Add />} className={classes.innerNewList} placeholder={'Add A New List'} handleUpdate={addList} />
   )
 }
