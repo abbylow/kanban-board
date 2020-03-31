@@ -30,7 +30,7 @@ export const EditableField = ({ displayIcon, className, placeholder = 'Enter som
         {
           editMode ? (
             <div>
-              <TextField placeholder={placeholder} defaultValue={text} inputRef={inputRef} />
+              <TextField placeholder={placeholder} defaultValue={text} inputRef={inputRef}/>
               <IconButton color="primary" onClick={updateText}><Check /></IconButton>
               <IconButton color="secondary" onClick={toggleTextEditable}><Close /></IconButton>
             </div >

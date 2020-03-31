@@ -4,7 +4,6 @@ import { Dialog, DialogContent, IconButton, Typography } from '@material-ui/core
 import { DeleteOutline, Close, EditOutlined, FlagOutlined } from '@material-ui/icons';
 import { EditableField } from './EditableField';
 import { TaskContext } from '../contexts/TaskContext';
-import { EditorComponent } from './Editor';
 import { ColumnContext } from '../contexts/ColumnContext';
 
 const useStyles = makeStyles({
@@ -20,8 +19,8 @@ const useStyles = makeStyles({
   formContainer: {
     display: 'flex',
   },
-  titleArea: {
-    margin: '0.5em 1em'
+  editorContainer: {
+    marginBottom: '1em'
   },
   titleText: {
     fontWeight: 'bolder',
@@ -34,17 +33,16 @@ export default function CardDetail({ dialogIsOpen, handleClose, ...otherProps })
   const classes = useStyles();
 
   const { tasks, setTasks } = useContext(TaskContext);
-  
-  //TODO: make this function able to update any field, not limit to title
-  const renameCardTitle = (newCardTitle) => {
-    const updatedField = { title: newCardTitle };
+
+  const updateCardField = (updatedField) => {
     setTasks({ ...tasks, [selectedTaskId]: { ...tasks[selectedTaskId], ...updatedField } })
   }
 
   const { columns, setColumns } = useContext(ColumnContext);
+  
   const deleteCard = () => {
     let newTaskIds = [...columns[selectedColumnId].taskIds];
-    newTaskIds = newTaskIds.filter(task => task != selectedTaskId);
+    newTaskIds = newTaskIds.filter(task => task !== selectedTaskId);
     let newColumns = { ...columns, [selectedColumnId]: { ...columns[selectedColumnId], taskIds: newTaskIds } }
     setColumns(newColumns);
 
@@ -73,21 +71,26 @@ export default function CardDetail({ dialogIsOpen, handleClose, ...otherProps })
           </IconButton>
         </div>
       </div>
-      <div className={classes.titleArea}>
-        <EditableField
-          displayIcon={renderIcon}
-          className={classes.formContainer}
-          textClassName={classes.titleText}
-          placeholder={tasks && tasks[selectedTaskId] && tasks[selectedTaskId].title}
-          handleUpdate={renameCardTitle}
-        />
-      </div>
-      <DialogContent>
-        {/* TODO: make a place for human to edit the tasks */}
-        {/* Rich text editor */}
-        {/* Checklist */}
-        {/* <EditorComponent description={tasks && tasks[selectedTaskId] && tasks[selectedTaskId].description} /> */}
 
+      <DialogContent>
+        <div className={classes.editorContainer}>
+          <EditableField
+            displayIcon={renderIcon}
+            className={classes.formContainer}
+            textClassName={classes.titleText}
+            placeholder={tasks && tasks[selectedTaskId] && tasks[selectedTaskId].title ? tasks && tasks[selectedTaskId] && tasks[selectedTaskId].title : 'Add a title'}
+            handleUpdate={(newValue) => { updateCardField({ title: newValue }) }}
+          />
+        </div>
+
+        <div className={classes.editorContainer}>
+          <EditableField
+            displayIcon={renderIcon}
+            className={classes.formContainer}
+            placeholder={tasks && tasks[selectedTaskId] && tasks[selectedTaskId].description ? tasks && tasks[selectedTaskId] && tasks[selectedTaskId].description : 'Add a description'}
+            handleUpdate={(newValue) => { updateCardField({ description: newValue }) }}
+          />
+        </div>
       </DialogContent>
 
     </Dialog>
