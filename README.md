@@ -1,7 +1,7 @@
 ## Kanban Board
 A simple drag and drop kanban board with some CRUD features. Nothing special.
 
-Utilize react-beautiful-dnd package to handle the drag and drop feature. 
+Utilize ```react-beautiful-dnd``` package to handle the drag and drop feature. 
 
 ### Feautures
 - Rename board
